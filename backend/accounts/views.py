@@ -69,7 +69,12 @@ class LoginView(APIView):
 
         login(request, user)
         request.session.set_expiry(31536000 if remember_me else 0)
-        return Response({"message": "Login successful.", "user": UserProfileSerializer(user).data})
+        from django.middleware.csrf import get_token
+        return Response({
+            "message": "Login successful.",
+            "user": UserProfileSerializer(user).data,
+            "csrfToken": get_token(request)
+        })
 
 
 class LogoutView(APIView):

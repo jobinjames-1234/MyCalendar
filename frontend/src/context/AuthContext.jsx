@@ -25,6 +25,9 @@ export function AuthProvider({ children }) {
 
   const handleLogin = async (payload) => {
     const { data } = await loginUser(payload);
+    if (data.csrfToken) {
+      localStorage.setItem("csrfToken", data.csrfToken);
+    }
     setUser(data.user);
     return data;
   };
