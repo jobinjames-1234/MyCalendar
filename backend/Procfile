@@ -1,0 +1,1 @@
+web: gunicorn calendar_backend.wsgi:application

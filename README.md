@@ -61,12 +61,26 @@ A modern, production-oriented full-stack calendar application with a focus on se
 
 ---
 
-## ☁️ Vercel Deployment Guide
+## ☁️ Deployment Guide
 
-This project is optimized for deployment as two separate Vercel projects (Frontend & Backend).
+### Option A: Render (Backend) + Vercel (Frontend) [Recommended]
 
-### 1. Backend Environment Variables
-Set these in your Vercel Dashboard for the **backend** project:
+#### 1. Backend (Render)
+- Create a **Web Service** on [Render](https://render.com/).
+- Root Directory: `backend`
+- Environment: `Python 3`
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `gunicorn calendar_backend.wsgi:application`
+- Add environment variables (same as the table below).
+
+#### 2. Frontend (Vercel)
+- Create a project on [Vercel](https://vercel.com/).
+- Root Directory: `frontend`
+- Framework Preset: `Vite`
+- Add `VITE_API_BASE_URL` pointing to your Render URL.
+
+### Option B: Vercel (Both)
+... (existing Vercel instructions) ...
 
 | Key | Recommended Value |
 | :--- | :--- |
