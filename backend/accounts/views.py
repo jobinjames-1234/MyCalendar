@@ -41,7 +41,8 @@ class CsrfTokenView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        return Response({"message": "CSRF cookie set."})
+        from django.middleware.csrf import get_token
+        return Response({"csrfToken": get_token(request)})
 
 
 class LoginView(APIView):

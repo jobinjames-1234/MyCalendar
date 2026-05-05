@@ -18,19 +18,18 @@ const getCookie = (name) => {
 
 // Automatic CSRF pre-fetching and header injection
 apiClient.interceptors.request.use(async (config) => {
-  let csrfToken = getCookie("csrftoken");
-
-  // If missing and not already trying to get one, fetch it
+  let csrfToken = getCookie("csrftoken") || localStorage.getItem("csrfToken");
+  
   if (!csrfToken && !config.url.includes("/auth/csrf/")) {
     try {
-      await axios.get(`${import.meta.env.VITE_API_BASE_URL}/auth/csrf/`, { withCredentials: true });
-      csrfToken = getCookie("csrftoken");
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/auth/csrf/`, { withCredentials: true });
+      csrfToken = response.data.csrfToken;
+      localStorage.setItem("csrfToken", csrfToken);
     } catch (error) {
       console.error("Failed to pre-fetch CSRF token:", error);
     }
   }
 
-  // Manually attach the token to the headers if we have it
   if (csrfToken) {
     config.headers["X-CSRFToken"] = csrfToken;
   }
