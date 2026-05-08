@@ -123,6 +123,14 @@ export default function DashboardPage() {
     setCurrentMonth(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`);
   };
 
+  const handleSelectDate = (date) => {
+    if (date === selectedDate) {
+      openModal();
+    } else {
+      setSelectedDate(date);
+    }
+  };
+
   return (
     <main className="dashboard-page">
       <header className="topbar">
@@ -152,7 +160,7 @@ export default function DashboardPage() {
 
       <CalendarGrid
         selectedDate={selectedDate}
-        onSelectDate={setSelectedDate}
+        onSelectDate={handleSelectDate}
         notesByDate={notesByDate}
         currentMonth={currentMonth}
         onMonthChange={onMonthChange}
